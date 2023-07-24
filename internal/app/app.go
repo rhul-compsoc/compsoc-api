@@ -1,0 +1,32 @@
+package app
+
+import (
+	"log"
+	"os"
+	"os/signal"
+
+	"github.com/joho/godotenv"
+	"github.com/rhul-compsoc/compsoc-api-go/internal/router"
+	"github.com/rhul-compsoc/compsoc-api-go/pkg/util"
+)
+
+// Stores the router
+var r *router.Router
+
+func Run() {
+	log.Println("Starting app")
+
+	err := godotenv.Load()
+	util.ErrOut(err)
+
+	r = router.MakeRouter()
+	r.RegisterRoutes(*makeRoutes())
+	r.NoRoute(reverseProxy())
+	r.Run()
+
+	stop := make(chan os.Signal, 1)
+	signal.Notify(stop, os.Interrupt)
+	<-stop
+
+	log.Println("Shutting down app")
+}
