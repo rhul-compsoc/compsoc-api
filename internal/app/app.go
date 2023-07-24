@@ -6,6 +6,7 @@ import (
 	"os/signal"
 
 	"github.com/joho/godotenv"
+	"github.com/rhul-compsoc/compsoc-api-go/internal/middleware"
 	"github.com/rhul-compsoc/compsoc-api-go/internal/router"
 	"github.com/rhul-compsoc/compsoc-api-go/pkg/util"
 )
@@ -20,7 +21,8 @@ func Run() {
 	util.ErrOut(err)
 
 	r = router.MakeRouter()
-	r.RegisterRoutes(*makeRoutes())
+	r.Use(middleware.MakeAuth())
+	r.RegisterRoutes(makeRoutes())
 	r.NoRoute(reverseProxy())
 	r.Run()
 

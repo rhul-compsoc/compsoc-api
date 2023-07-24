@@ -12,8 +12,8 @@ import (
 
 // The makeRoutes method returns a pointer to a Routes struct,
 // which stores a slice of Route.
-func makeRoutes() *router.Routes {
-	return &router.Routes{
+func makeRoutes() router.Routes {
+	return router.Routes{
 		RouteInfo: []router.Route{
 			// Ping Handlers
 			{
@@ -22,6 +22,14 @@ func makeRoutes() *router.Routes {
 				Path:        "/ping",
 				Handler:     "",
 				HandlerFunc: handlers.PingGet(),
+			},
+			// Guild Handlers
+			{
+				Name:        "GetGuild",
+				Method:      router.Get,
+				Path:        "/guild",
+				Handler:     "/:guild",
+				HandlerFunc: handlers.GuildGet(),
 			},
 		},
 	}
