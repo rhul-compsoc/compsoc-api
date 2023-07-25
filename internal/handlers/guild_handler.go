@@ -25,7 +25,7 @@ func GuildGet() gin.HandlerFunc {
 		util.LogErr(err)
 
 		req.Header.Add("Authorization", os.Getenv("DISCORD_TOK"))
-		req.Header.Set("User-Agent", "cordle-api")
+		req.Header.Set("User-Agent", "compsoc-api")
 
 		res, err := client.Do(req)
 		util.LogErr(err)
