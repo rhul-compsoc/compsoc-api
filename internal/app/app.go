@@ -6,6 +6,7 @@ import (
 	"os/signal"
 
 	"github.com/joho/godotenv"
+	"github.com/rhul-compsoc/compsoc-api-go/internal/database"
 	"github.com/rhul-compsoc/compsoc-api-go/internal/middleware"
 	"github.com/rhul-compsoc/compsoc-api-go/internal/router"
 	"github.com/rhul-compsoc/compsoc-api-go/pkg/util"
@@ -13,13 +14,19 @@ import (
 
 // Stores the router
 var r *router.Router
+var s *database.Store
 
 func Run() {
 	log.Println("Starting app")
 
+	log.Println("Load env")
 	err := godotenv.Load()
 	util.ErrOut(err)
 
+	log.Println("Creating Store")
+	s = database.New()
+
+	log.Println("Creating & starting Router")
 	r = router.MakeRouter()
 	r.Use(middleware.MakeAuth())
 	r.RegisterRoutes(makeRoutes())
