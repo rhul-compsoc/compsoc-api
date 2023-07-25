@@ -17,7 +17,7 @@ func makeRoutes() router.Routes {
 		RouteInfo: []router.Route{
 			// Ping Handlers
 			{
-				Name:        "GetPing",
+				Name:        "Get Ping",
 				Method:      router.Get,
 				Path:        "/ping",
 				Handler:     "",
@@ -25,11 +25,54 @@ func makeRoutes() router.Routes {
 			},
 			// Guild Handlers
 			{
-				Name:        "GetGuild",
+				Name:        "Get Guild",
 				Method:      router.Get,
 				Path:        "/guild",
 				Handler:     "/:guild",
 				HandlerFunc: handlers.GuildGet(),
+			},
+			// Member Handlers
+			{
+				Name:        "List Member",
+				Method:      router.Get,
+				Path:        "/member",
+				Handler:     "",
+				HandlerFunc: handlers.MemberList(s),
+			},
+			{
+				Name:        "Get Member",
+				Method:      router.Get,
+				Path:        "/member",
+				Handler:     "/:member",
+				HandlerFunc: handlers.MemberGet(s),
+			},
+			{
+				Name:        "Post Member",
+				Method:      router.Post,
+				Path:        "/member",
+				Handler:     "",
+				HandlerFunc: handlers.MemberPost(s),
+			},
+			{
+				Name:        "Put Member",
+				Method:      router.Put,
+				Path:        "/member",
+				Handler:     "",
+				HandlerFunc: handlers.MemberPut(s),
+			},
+			{
+				Name:        "Patch Member",
+				Method:      router.Patch,
+				Path:        "/member",
+				Handler:     "",
+				HandlerFunc: handlers.MemberPatch(s),
+			},
+			{
+				Name:        "Delete Member",
+				Method:      router.Patch,
+				Path:        "/member",
+				Handler:     "/:member",
+				HandlerFunc: handlers.MemberDelete(s),
 			},
 		},
 	}

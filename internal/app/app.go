@@ -14,6 +14,7 @@ import (
 
 // Stores the router
 var r *router.Router
+// Don't come for me I can't be bothered
 var s *database.Store
 
 func Run() {

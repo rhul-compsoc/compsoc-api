@@ -2,27 +2,80 @@ package database
 
 import (
 	"context"
-	"fmt"
-	"os"
 	"sync"
 
-	"github.com/rhul-compsoc/compsoc-api-go/pkg/util"
-	"gorm.io/driver/postgres"
+	"github.com/rhul-compsoc/compsoc-api-go/internal/models"
 	"gorm.io/gorm"
 )
 
+// Stores a *gorm.DB and mutex.
 type Store struct {
 	db   *gorm.DB
 	dbMu sync.Mutex
 }
 
+// Create a new pointer to a Store.
 func New() *Store {
 	return &Store{
 		db: makeDb(),
 	}
 }
 
-// Ping the database
+// List members from members table.
+func (s *Store) ListMember() ([]models.MemberModel, error) {
+	s.dbMu.Lock()
+	defer s.dbMu.Unlock()
+
+	m := make([]models.MemberModel, 0)
+	r := s.db.Table("members").Find(&m)
+
+	return m, r.Error
+}
+
+// Get member, with their id, from members table.
+func (s *Store) GetMember(id int) (models.MemberModel, error) {
+	s.dbMu.Lock()
+	defer s.dbMu.Unlock()
+
+	m := models.MemberModel{Id: id}
+	r := s.db.Table("members").Find(&m).First(&m)
+
+	return m, r.Error
+}
+
+// Update a member from the members table.
+func (s *Store) UpdateMember(m models.MemberModel) error {
+	s.dbMu.Lock()
+	defer s.dbMu.Unlock()
+
+	r := s.db.Table("members").Save(&m)
+
+	return r.Error
+}
+
+// Delete a member from the members table.
+func (s *Store) DeleteMember(id int) error {
+	s.dbMu.Lock()
+	defer s.dbMu.Unlock()
+
+	m := models.MemberModel{Id: id}
+	r := s.db.Table("members").Delete(&m)
+
+	return r.Error
+}
+
+// Check a member exists in members table.
+func (s *Store) CheckMember(id int) bool {
+	s.dbMu.Lock()
+	defer s.dbMu.Unlock()
+
+	m := models.MemberModel{Id: id}
+	r := s.db.Table("members").Model(&m).First(&m)
+
+	return r.Error == nil
+}
+
+// Ping the database.
 func (s *Store) Ping() error {
 	s.dbMu.Lock()
 	defer s.dbMu.Unlock()
@@ -35,38 +88,4 @@ func (s *Store) Ping() error {
 
 	err = db.PingContext(ctx)
 	return err
-}
-
-// Creates a pointer to a gorm db.
-//
-// This uses environmental variables for the dsn.
-//
-// A connection is then opened, checked for errors and returned.
-//
-// Keys for environmental variables:
-//   - DB_ADDR : stores the address (IP)
-//   - DB_PORT : stores the port
-//   - DB_USER : stores the username
-//   - DB_PASS : stores the password
-//   - DB_NAME : stores the database name
-func makeDb() *gorm.DB {
-	dsn := fmt.Sprintf(`
-		host=%s 
-		user=%s 
-		password=%s 
-		dbname=%s 
-		port=%s 
-		sslmode=disable 
-		TimeZone=Europe/London`,
-		os.Getenv("DB_ADDR"),
-		os.Getenv("DB_USER"),
-		os.Getenv("DB_PASS"),
-		os.Getenv("DB_NAME"),
-		os.Getenv("DB_PORT"),
-	)
-
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	util.ErrOut(err)
-
-	return db
 }
