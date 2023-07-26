@@ -69,7 +69,7 @@ func makeRoutes() router.Routes {
 			},
 			{
 				Name:        "Delete Member",
-				Method:      router.Patch,
+				Method:      router.Delete,
 				Path:        "/member",
 				Handler:     "/:member",
 				HandlerFunc: handlers.MemberDelete(s),

@@ -43,6 +43,15 @@ func (s *Store) GetMember(id int) (models.MemberModel, error) {
 	return m, r.Error
 }
 
+func (s *Store) AddMember(m models.MemberModel) error {
+	s.dbMu.Lock()
+	defer s.dbMu.Unlock()
+
+	r := s.db.Table("members").Create(&m)
+
+	return r.Error
+}
+
 // Update a member from the members table.
 func (s *Store) UpdateMember(m models.MemberModel) error {
 	s.dbMu.Lock()
