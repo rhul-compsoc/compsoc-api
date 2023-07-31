@@ -64,6 +64,51 @@ func (s *Store) CheckMember(id int) bool {
 	return r.Error == nil
 }
 
+// List persons from users table.
+func (s *Store) ListPerson() ([]models.PersonModel, error) {
+	p := make([]models.PersonModel, 0)
+	r := s.db.Table("users").Find(&p)
+
+	return p, r.Error
+}
+
+// Get person, with their id, from users table.
+func (s *Store) GetPerson(id int) (models.PersonModel, error) {
+	p := models.PersonModel{Id: id}
+	r := s.db.Table("users").Find(&p).First(&p)
+
+	return p, r.Error
+}
+
+func (s *Store) AddPerson(p models.PersonModel) error {
+	r := s.db.Table("users").Create(&p)
+
+	return r.Error
+}
+
+// Update a person from the users table.
+func (s *Store) UpdatePerson(p models.PersonModel) error {
+	r := s.db.Table("users").Save(&p)
+
+	return r.Error
+}
+
+// Delete a person from the users table.
+func (s *Store) DeletePerson(id int) error {
+	m := models.PersonModel{Id: id}
+	r := s.db.Table("users").Delete(&m)
+
+	return r.Error
+}
+
+// Check a person exists in users table.
+func (s *Store) CheckPerson(id int) bool {
+	m := models.PersonModel{Id: id}
+	r := s.db.Table("users").Model(&m).First(&m)
+
+	return r.Error == nil
+}
+
 // Ping the database.
 func (s *Store) Ping() error {
 	ctx := context.Background()
