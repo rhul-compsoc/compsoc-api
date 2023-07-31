@@ -3,7 +3,6 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"time"
@@ -13,6 +12,8 @@ import (
 	"github.com/rhul-compsoc/compsoc-api-go/pkg/util"
 )
 
+// Gets a Guild with id given in the parameter.
+//   - /guild/:guild
 func GuildGet() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		i := c.Param("guild")
@@ -34,11 +35,8 @@ func GuildGet() gin.HandlerFunc {
 			defer res.Body.Close()
 		}
 
-		body, err := ioutil.ReadAll(res.Body)
-		util.LogErr(err)
-
-		g := models.Guild{}
-		err = json.Unmarshal(body, &g)
+		var g models.Guild
+		err = json.NewDecoder(res.Body).Decode(&g)
 		util.LogErr(err)
 
 		c.JSON(http.StatusOK, g)

@@ -9,6 +9,8 @@ import (
 	"github.com/rhul-compsoc/compsoc-api-go/internal/models"
 )
 
+// Gets all Members from members table.
+//   - /member
 func MemberList(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		m, err := s.ListMember()
@@ -22,6 +24,8 @@ func MemberList(s *database.Store) gin.HandlerFunc {
 	}
 }
 
+// Gets a Member with id given in the parameter.
+//   - /member/:member
 func MemberGet(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		p := c.Param("member")
@@ -49,6 +53,16 @@ func MemberGet(s *database.Store) gin.HandlerFunc {
 	}
 }
 
+// Posts a Member with data given in the body.
+//   - /member
+//
+// body
+//   - "id": int
+//   - "student_id": string
+//   - "student_email": string
+//   - "first_name": string
+//   - "last_name": string
+//   - "active_member": bool
 func MemberPost(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		b := models.MemberPost{}
@@ -71,6 +85,16 @@ func MemberPost(s *database.Store) gin.HandlerFunc {
 	}
 }
 
+// Puts a Member with data given in the body.
+//   - /member
+//
+// body
+//   - "id": int
+//   - "student_id": string
+//   - "student_email": string
+//   - "first_name": string
+//   - "last_name": string
+//   - "active_member": bool
 func MemberPut(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		b := models.MemberPost{}
@@ -99,6 +123,16 @@ func MemberPut(s *database.Store) gin.HandlerFunc {
 	}
 }
 
+// Patchers a Member with data given in the body.
+//   - /member
+//
+// body
+//   - "id": int
+//   - "student_id": string
+//   - "student_email": string
+//   - "first_name": string
+//   - "last_name": string
+//   - "active_member": bool
 func MemberPatch(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		b := models.MemberPost{}
@@ -121,6 +155,8 @@ func MemberPatch(s *database.Store) gin.HandlerFunc {
 	}
 }
 
+// Deletes a Member with id given in the parameter.
+//   - /member/:member
 func MemberDelete(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		p := c.Param("member")

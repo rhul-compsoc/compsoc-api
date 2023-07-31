@@ -9,6 +9,8 @@ import (
 	"github.com/rhul-compsoc/compsoc-api-go/internal/models"
 )
 
+// Gets all Persons from users table.
+//   - /person
 func PersonList(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		r, err := s.ListPerson()
@@ -22,6 +24,8 @@ func PersonList(s *database.Store) gin.HandlerFunc {
 	}
 }
 
+// Gets a Person with id given in the parameter.
+//   - /person/:person
 func PersonGet(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		p := c.Param("person")
@@ -49,6 +53,12 @@ func PersonGet(s *database.Store) gin.HandlerFunc {
 	}
 }
 
+// Posts a Member with data given in the body.
+//   - /person
+//
+// body
+//   - "id": int
+//   - "name": string
 func PersonPost(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		b := models.PersonPost{}
@@ -71,6 +81,12 @@ func PersonPost(s *database.Store) gin.HandlerFunc {
 	}
 }
 
+// Puts a Member with data given in the body.
+//   - /person
+//
+// body
+//   - "id": int
+//   - "name": string
 func PersonPut(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		b := models.PersonPost{}
@@ -99,6 +115,12 @@ func PersonPut(s *database.Store) gin.HandlerFunc {
 	}
 }
 
+// Patchs a Member with data given in the body.
+//   - /person
+//
+// body
+//   - "id": int
+//   - "name": string
 func PersonPatch(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		b := models.PersonPost{}
@@ -121,6 +143,8 @@ func PersonPatch(s *database.Store) gin.HandlerFunc {
 	}
 }
 
+// Deletes a Person with id given in the parameter.
+//   - /person/:person
 func PersonDelete(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		p := c.Param("person")
