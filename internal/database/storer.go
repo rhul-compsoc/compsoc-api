@@ -41,6 +41,7 @@ func (s *Store) GetMember(id int) (models.MemberModel, error) {
 	return m, r.Error
 }
 
+// Add member to the members table.
 func (s *Store) AddMember(m models.MemberModel) error {
 	r := s.db.Table(MembersTable).Create(&m)
 
@@ -86,6 +87,7 @@ func (s *Store) GetPerson(id int) (models.PersonModel, error) {
 	return p, r.Error
 }
 
+// Add person to the users table
 func (s *Store) AddPerson(p models.PersonModel) error {
 	r := s.db.Table(UsersTable).Create(&p)
 
@@ -101,16 +103,62 @@ func (s *Store) UpdatePerson(p models.PersonModel) error {
 
 // Delete a person from the users table.
 func (s *Store) DeletePerson(id int) error {
-	m := models.PersonModel{Id: id}
-	r := s.db.Table(UsersTable).Delete(&m)
+	p := models.PersonModel{Id: id}
+	r := s.db.Table(UsersTable).Delete(&p)
 
 	return r.Error
 }
 
 // Check a person exists in users table.
 func (s *Store) CheckPerson(id int) bool {
-	m := models.PersonModel{Id: id}
-	r := s.db.Table(UsersTable).Model(&m).First(&m)
+	p := models.PersonModel{Id: id}
+	r := s.db.Table(UsersTable).Model(&p).First(&p)
+
+	return r.Error == nil
+}
+
+// List persons from users table.
+func (s *Store) ListEvent() ([]models.EventModel, error) {
+	e := make([]models.EventModel, 0)
+	r := s.db.Table(EventsTable).Find(&e)
+
+	return e, r.Error
+}
+
+// Get event, with its id, from events table.
+func (s *Store) GetEvent(id int) (models.EventModel, error) {
+	e := models.EventModel{Id: id}
+	r := s.db.Table(EventsTable).Find(&e).First(&e)
+
+	return e, r.Error
+}
+
+// Add an event to the events table.
+func (s *Store) AddEvent(p models.EventModel) error {
+	r := s.db.Table(EventsTable).Create(&p)
+
+	return r.Error
+}
+
+// Update an event from the events table.
+func (s *Store) UpdateEvent(p models.EventModel) error {
+	r := s.db.Table(EventsTable).Save(&p)
+
+	return r.Error
+}
+
+// Delete an event from the events table.
+func (s *Store) DeleteEvent(id int) error {
+	e := models.EventModel{Id: id}
+	r := s.db.Table(EventsTable).Delete(&e)
+
+	return r.Error
+}
+
+// Check an event exists in events table.
+func (s *Store) CheckEvent(id int) bool {
+	e := models.EventModel{Id: id}
+	r := s.db.Table(EventsTable).Model(&e).First(&e)
 
 	return r.Error == nil
 }

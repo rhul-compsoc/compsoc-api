@@ -3,13 +3,13 @@ package models
 import "github.com/rhul-compsoc/compsoc-api-go/pkg/util"
 
 type EventModel struct {
-	Id          int
-	Name        string
-	Description string
-	Date        string
-	Time        string
-	Attendance  int
-	MembersOnly bool
+	Id          int    `gorm:"primaryKey;autoIncrement"`
+	Name        string `gorm:"default:'event_name';type:varchar(50);not null"`
+	Description string `gorm:"default:'event_description';type:text;not null"`
+	Date        string `gorm:"default:'00/00/0000';type:varchar(10);not null"`
+	Time        string `gorm:"default:'00:00';type:varchar(5);not null"`
+	Attendance  int    `gorm:"default:0;type:integer;not null"`
+	MembersOnly bool   `gorm:"default:false;type:boolean;not null"`
 }
 
 func (e *EventModel) ToEventPost() EventPost {
@@ -27,6 +27,23 @@ func (e *EventModel) ToEventPost() EventPost {
 		Time:        t,
 		Attendance:  e.Attendance,
 		MembersOnly: e.MembersOnly,
+	}
+}
+
+func DefaultEventPost() EventPost {
+	d, err := NewDate("00/00/0000")
+	util.LogErr(err)
+
+	t, err := NewTime("00:00")
+	util.LogErr(err)
+
+	return EventPost{
+		Name:        "name",
+		Description: "description",
+		Date:        d,
+		Time:        t,
+		Attendance:  0,
+		MembersOnly: false,
 	}
 }
 

@@ -117,6 +117,49 @@ func makeRoutes() router.Routes {
 				Handler:     "/:person",
 				HandlerFunc: handlers.PersonDelete(s),
 			},
+			// Event Handlers
+			{
+				Name:        "List Event",
+				Method:      router.Get,
+				Path:        "/event",
+				Handler:     "",
+				HandlerFunc: handlers.EventList(s),
+			},
+			{
+				Name:        "Get Event",
+				Method:      router.Get,
+				Path:        "/event",
+				Handler:     "/:event",
+				HandlerFunc: handlers.EventGet(s),
+			},
+			{
+				Name:        "Post Event",
+				Method:      router.Post,
+				Path:        "/event",
+				Handler:     "",
+				HandlerFunc: handlers.EventPost(s),
+			},
+			{
+				Name:        "Put Event",
+				Method:      router.Put,
+				Path:        "/event",
+				Handler:     "",
+				HandlerFunc: handlers.EventPut(s),
+			},
+			{
+				Name:        "Patch Event",
+				Method:      router.Patch,
+				Path:        "/event",
+				Handler:     "",
+				HandlerFunc: handlers.EventPatch(s),
+			},
+			{
+				Name:        "Delete Event",
+				Method:      router.Delete,
+				Path:        "/event",
+				Handler:     "/:event",
+				HandlerFunc: handlers.EventDelete(s),
+			},
 		},
 	}
 }

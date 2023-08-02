@@ -13,7 +13,12 @@ import (
 //   - /person
 func PersonList(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		r, err := s.ListPerson()
+		l, err := s.ListPerson()
+
+		r := make([]models.PersonPost, len(l))
+		for i, person := range l {
+			r[i] = person.ToPersonPost()
+		}
 
 		if err != nil {
 			c.Status(http.StatusBadRequest)
@@ -42,7 +47,8 @@ func PersonGet(s *database.Store) gin.HandlerFunc {
 			return
 		}
 
-		r, err := s.GetPerson(id)
+		g, err := s.GetPerson(id)
+		r := g.ToPersonPost()
 
 		if err != nil {
 			c.Status(http.StatusBadRequest)

@@ -13,14 +13,19 @@ import (
 //   - /member
 func MemberList(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		m, err := s.ListMember()
+		l, err := s.ListMember()
+
+		r := make([]models.MemberPost, len(l))
+		for i, member := range l {
+			r[i] = member.ToMemberPost()
+		}
 
 		if err != nil {
 			c.Status(http.StatusBadRequest)
 			return
 		}
 
-		c.JSON(http.StatusOK, m)
+		c.JSON(http.StatusOK, r)
 	}
 }
 
@@ -42,14 +47,15 @@ func MemberGet(s *database.Store) gin.HandlerFunc {
 			return
 		}
 
-		m, err := s.GetMember(id)
+		g, err := s.GetMember(id)
+		r := g.ToMemberPost()
 
 		if err != nil {
 			c.Status(http.StatusBadRequest)
 			return
 		}
 
-		c.JSON(http.StatusOK, m)
+		c.JSON(http.StatusOK, r)
 	}
 }
 
