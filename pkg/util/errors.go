@@ -6,10 +6,12 @@ import (
 )
 
 var (
-	ErrTaskConv             = errors.New("error converting interface to task")
-	ErrQueryResp            = errors.New("error getting query response")
+	ErrTaskConv             = errors.New("error, converting interface to task")
+	ErrQueryResp            = errors.New("error, getting query response")
 	ErrUndefinedRouteMethod = errors.New("error, this route method is undefined")
 	ErrFileNotExist         = errors.New("error, tried writting to a file that does not exist")
+	ErrBadTimeConv          = errors.New("error, failed to convert string to time")
+	ErrBadDateConv          = errors.New("error, failed to convert string to date")
 )
 
 func ErrOut(err error) {
