@@ -9,7 +9,7 @@ type MemberModel struct {
 	ActiveMember bool   `gorm:"default:false;type:boolean;not null"`
 }
 
-func (m *MemberModel) ToMemberPost() MemberPost {
+func (m *MemberModel) ToPost() MemberPost {
 	return MemberPost{
 		Id:           m.Id,
 		StudentId:    m.StudentId,
@@ -29,7 +29,7 @@ type MemberPost struct {
 	ActiveMember bool   `json:"active_member"`
 }
 
-func (m *MemberPost) ToMemberModel() MemberModel {
+func (m *MemberPost) ToModel() MemberModel {
 	return MemberModel{
 		Id:           m.Id,
 		StudentId:    m.StudentId,

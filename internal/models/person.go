@@ -5,7 +5,7 @@ type PersonModel struct {
 	Name string `gorm:"default:'name';type:varchar(50);not null"`
 }
 
-func (p *PersonModel) ToPersonPost() PersonPost {
+func (p *PersonModel) ToPost() PersonPost {
 	return PersonPost{
 		Id:   p.Id,
 		Name: p.Name,
@@ -17,7 +17,7 @@ type PersonPost struct {
 	Name string `json:"name"`
 }
 
-func (p *PersonPost) ToPersonModel() PersonModel {
+func (p *PersonPost) ToModel() PersonModel {
 	return PersonModel{
 		Id:   p.Id,
 		Name: p.Name,

@@ -17,7 +17,7 @@ func PersonList(s *database.Store) gin.HandlerFunc {
 
 		r := make([]models.PersonPost, len(l))
 		for i, person := range l {
-			r[i] = person.ToPersonPost()
+			r[i] = person.ToPost()
 		}
 
 		if err != nil {
@@ -48,7 +48,7 @@ func PersonGet(s *database.Store) gin.HandlerFunc {
 		}
 
 		g, err := s.GetPerson(id)
-		r := g.ToPersonPost()
+		r := g.ToPost()
 
 		if err != nil {
 			c.Status(http.StatusBadRequest)
@@ -69,7 +69,7 @@ func PersonPost(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		b := models.PersonPost{}
 		c.Bind(&b)
-		p := b.ToPersonModel()
+		p := b.ToModel()
 
 		e := s.CheckPerson(p.Id)
 		if e {
@@ -97,7 +97,7 @@ func PersonPut(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		b := models.PersonPost{}
 		c.Bind(&b)
-		p := b.ToPersonModel()
+		p := b.ToModel()
 
 		e := s.CheckPerson(p.Id)
 		if !e {
@@ -131,7 +131,7 @@ func PersonPatch(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		b := models.PersonPost{}
 		c.Bind(&b)
-		m := b.ToPersonModel()
+		m := b.ToModel()
 
 		e := s.CheckPerson(m.Id)
 		if !e {

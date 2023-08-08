@@ -17,7 +17,7 @@ func EventList(s *database.Store) gin.HandlerFunc {
 
 		r := make([]models.EventPost, len(l))
 		for i, event := range l {
-			r[i] = event.ToEventPost()
+			r[i] = event.ToPost()
 		}
 
 		if err != nil {
@@ -48,7 +48,7 @@ func EventGet(s *database.Store) gin.HandlerFunc {
 		}
 
 		g, err := s.GetEvent(id)
-		r := g.ToEventPost()
+		r := g.ToPost()
 
 		if err != nil {
 			c.Status(http.StatusBadRequest)
@@ -74,7 +74,7 @@ func EventPost(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		b := models.DefaultEventPost()
 		c.Bind(&b)
-		m := b.ToEventModel()
+		m := b.ToModel()
 
 		if m.Id != 0 {
 			e := s.CheckEvent(m.Id)
@@ -109,7 +109,7 @@ func EventPut(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		b := models.DefaultEventPost()
 		c.Bind(&b)
-		m := b.ToEventModel()
+		m := b.ToModel()
 
 		e := s.CheckEvent(m.Id)
 		if !e {
@@ -148,7 +148,7 @@ func EventPatch(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		b := models.DefaultEventPost()
 		c.Bind(&b)
-		m := b.ToEventModel()
+		m := b.ToModel()
 
 		e := s.CheckEvent(m.Id)
 		if !e {

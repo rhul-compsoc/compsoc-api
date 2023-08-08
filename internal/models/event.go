@@ -12,7 +12,7 @@ type EventModel struct {
 	MembersOnly bool   `gorm:"default:false;type:boolean;not null"`
 }
 
-func (e *EventModel) ToEventPost() EventPost {
+func (e *EventModel) ToPost() EventPost {
 	d, err := NewDate(e.Date)
 	util.ErrLog(err)
 
@@ -57,7 +57,7 @@ type EventPost struct {
 	MembersOnly bool   `json:"members_only"`
 }
 
-func (e *EventPost) ToEventModel() EventModel {
+func (e *EventPost) ToModel() EventModel {
 	return EventModel{
 		Id:          e.Id,
 		Name:        e.Name,

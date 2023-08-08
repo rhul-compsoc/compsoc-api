@@ -17,7 +17,7 @@ func MemberList(s *database.Store) gin.HandlerFunc {
 
 		r := make([]models.MemberPost, len(l))
 		for i, member := range l {
-			r[i] = member.ToMemberPost()
+			r[i] = member.ToPost()
 		}
 
 		if err != nil {
@@ -48,7 +48,7 @@ func MemberGet(s *database.Store) gin.HandlerFunc {
 		}
 
 		g, err := s.GetMember(id)
-		r := g.ToMemberPost()
+		r := g.ToPost()
 
 		if err != nil {
 			c.Status(http.StatusBadRequest)
@@ -73,7 +73,7 @@ func MemberPost(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		b := models.MemberPost{}
 		c.Bind(&b)
-		m := b.ToMemberModel()
+		m := b.ToModel()
 
 		e := s.CheckMember(m.Id)
 		if e {
@@ -105,7 +105,7 @@ func MemberPut(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		b := models.MemberPost{}
 		c.Bind(&b)
-		m := b.ToMemberModel()
+		m := b.ToModel()
 
 		e := s.CheckMember(m.Id)
 		if !e {
@@ -143,7 +143,7 @@ func MemberPatch(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		b := models.MemberPost{}
 		c.Bind(&b)
-		m := b.ToMemberModel()
+		m := b.ToModel()
 
 		e := s.CheckMember(m.Id)
 		if !e {
