@@ -29,7 +29,7 @@ func Run() {
 	s = database.New()
 
 	log.Println("Creating & starting Router")
-	r = router.MakeRouter()
+	r = router.New()
 	r.Use(middleware.MakeAuth())
 	r.RegisterRoutes(makeRoutes())
 	r.NoRoute(reverseProxy())
