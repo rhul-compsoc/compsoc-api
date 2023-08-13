@@ -7,10 +7,11 @@ import (
 )
 
 const (
-	MembersTable = "members"
-	UsersTable   = "users"
-	EventsTable  = "events"
-	AdminsTable  = "admins"
+	MembersTable  = "members"
+	UsersTable    = "users"
+	EventsTable   = "events"
+	AdminsTable   = "admins"
+	StudentsTable = "students"
 )
 
 // Stores a *gorm.DB and mutex.
