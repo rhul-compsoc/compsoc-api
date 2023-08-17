@@ -7,7 +7,6 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/rhul-compsoc/compsoc-api-go/internal/database"
-	"github.com/rhul-compsoc/compsoc-api-go/internal/middleware"
 	"github.com/rhul-compsoc/compsoc-api-go/internal/router"
 	"github.com/rhul-compsoc/compsoc-api-go/pkg/util"
 )
@@ -30,7 +29,7 @@ func Run() {
 
 	log.Println("Creating & starting Router")
 	r = router.New()
-	r.Use(middleware.MakeAuth())
+	//r.Use(middleware.MakeAuth())
 	r.RegisterRoutes(makeRoutes())
 	r.NoRoute(reverseProxy())
 	r.Run()

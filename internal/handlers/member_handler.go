@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -71,8 +72,8 @@ func MemberGet(s *database.Store) gin.HandlerFunc {
 //   - "active_member": bool
 func MemberPost(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		b := models.MemberPost{}
-		c.Bind(&b)
+		var b models.MemberPost
+		c.ShouldBindJSON(&b)
 		m := b.ToModel()
 
 		e := s.CheckMember(m.Id)
@@ -81,12 +82,14 @@ func MemberPost(s *database.Store) gin.HandlerFunc {
 			return
 		}
 
+		fmt.Println("2")
 		err := s.AddMember(m)
 		if err != nil {
 			c.Status(http.StatusBadRequest)
 			return
 		}
 
+		fmt.Println("3")
 		c.Status(http.StatusOK)
 	}
 }
@@ -103,8 +106,8 @@ func MemberPost(s *database.Store) gin.HandlerFunc {
 //   - "active_member": bool
 func MemberPut(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		b := models.MemberPost{}
-		c.Bind(&b)
+		var b models.MemberPost
+		c.ShouldBindJSON(&b)
 		m := b.ToModel()
 
 		e := s.CheckMember(m.Id)
@@ -141,8 +144,8 @@ func MemberPut(s *database.Store) gin.HandlerFunc {
 //   - "active_member": bool
 func MemberPatch(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		b := models.MemberPost{}
-		c.Bind(&b)
+		var b models.MemberPost
+		c.ShouldBindJSON(&b)
 		m := b.ToModel()
 
 		e := s.CheckMember(m.Id)

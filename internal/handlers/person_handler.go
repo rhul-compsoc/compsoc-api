@@ -67,17 +67,17 @@ func PersonGet(s *database.Store) gin.HandlerFunc {
 //   - "name": string
 func PersonPost(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		b := models.PersonPost{}
-		c.Bind(&b)
-		p := b.ToModel()
+		var b models.PersonPost
+		c.ShouldBindJSON(&b)
+		m := b.ToModel()
 
-		e := s.CheckPerson(p.Id)
+		e := s.CheckPerson(m.Id)
 		if e {
 			c.Status(http.StatusBadRequest)
 			return
 		}
 
-		err := s.AddPerson(p)
+		err := s.AddPerson(m)
 		if err != nil {
 			c.Status(http.StatusBadRequest)
 			return
@@ -95,13 +95,13 @@ func PersonPost(s *database.Store) gin.HandlerFunc {
 //   - "name": string
 func PersonPut(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		b := models.PersonPost{}
-		c.Bind(&b)
-		p := b.ToModel()
+		var b models.PersonPost
+		c.ShouldBindJSON(&b)
+		m := b.ToModel()
 
-		e := s.CheckPerson(p.Id)
+		e := s.CheckPerson(m.Id)
 		if !e {
-			err := s.AddPerson(p)
+			err := s.AddPerson(m)
 			if err != nil {
 				c.Status(http.StatusBadRequest)
 				return
@@ -111,7 +111,7 @@ func PersonPut(s *database.Store) gin.HandlerFunc {
 			return
 		}
 
-		err := s.UpdatePerson(p)
+		err := s.UpdatePerson(m)
 		if err != nil {
 			c.Status(http.StatusBadRequest)
 			return
@@ -129,8 +129,8 @@ func PersonPut(s *database.Store) gin.HandlerFunc {
 //   - "name": string
 func PersonPatch(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		b := models.PersonPost{}
-		c.Bind(&b)
+		var b models.PersonPost
+		c.ShouldBindJSON(&b)
 		m := b.ToModel()
 
 		e := s.CheckPerson(m.Id)

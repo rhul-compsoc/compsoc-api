@@ -73,7 +73,7 @@ func EventGet(s *database.Store) gin.HandlerFunc {
 func EventPost(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		b := models.DefaultEventPost()
-		c.Bind(&b)
+		c.ShouldBindJSON(&b)
 		m := b.ToModel()
 
 		if m.Id != 0 {
@@ -108,7 +108,7 @@ func EventPost(s *database.Store) gin.HandlerFunc {
 func EventPut(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		b := models.DefaultEventPost()
-		c.Bind(&b)
+		c.ShouldBindJSON(&b)
 		m := b.ToModel()
 
 		e := s.CheckEvent(m.Id)
@@ -147,7 +147,7 @@ func EventPut(s *database.Store) gin.HandlerFunc {
 func EventPatch(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		b := models.DefaultEventPost()
-		c.Bind(&b)
+		c.ShouldBindJSON(&b)
 		m := b.ToModel()
 
 		e := s.CheckEvent(m.Id)
