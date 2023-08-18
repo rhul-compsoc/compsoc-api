@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/signal"
 
+	"github.com/gin-contrib/cors"
 	"github.com/joho/godotenv"
 	"github.com/rhul-compsoc/compsoc-api-go/internal/database"
 	"github.com/rhul-compsoc/compsoc-api-go/internal/router"
@@ -30,6 +31,7 @@ func Run() {
 	log.Println("Creating & starting Router")
 	r = router.New()
 	//r.Use(middleware.MakeAuth())
+	r.Use(cors.Default())
 	r.RegisterRoutes(makeRoutes())
 	r.NoRoute(reverseProxy())
 	r.Run()
