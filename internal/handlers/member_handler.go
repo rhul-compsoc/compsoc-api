@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -76,20 +75,31 @@ func MemberPost(s *database.Store) gin.HandlerFunc {
 		c.ShouldBindJSON(&b)
 		m := b.ToModel()
 
-		e := s.CheckMember(m.Id)
+		e := s.CheckPerson(m.Id)
+		if !e {
+			p := models.PersonModel{
+				Id: m.Id,
+				Name: m.FirstName,
+			}
+			err := s.AddPerson(p)
+			if err != nil {
+				c.Status(http.StatusBadRequest)
+				return
+			}
+		}
+
+		e = s.CheckMember(m.Id)
 		if e {
 			c.Status(http.StatusBadRequest)
 			return
 		}
 
-		fmt.Println("2")
 		err := s.AddMember(m)
 		if err != nil {
 			c.Status(http.StatusBadRequest)
 			return
 		}
 
-		fmt.Println("3")
 		c.Status(http.StatusOK)
 	}
 }
