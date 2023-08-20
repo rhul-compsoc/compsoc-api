@@ -10,14 +10,14 @@ import (
 )
 
 // Gets all Persons from users table.
-//   - /person
-func PersonList(s *database.Store) gin.HandlerFunc {
+//   - /user
+func UserList(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		l, err := s.ListPerson()
+		l, err := s.ListUser()
 
-		r := make([]models.PersonPost, len(l))
-		for i, person := range l {
-			r[i] = person.ToPost()
+		r := make([]models.UserPost, len(l))
+		for i, user := range l {
+			r[i] = user.ToPost()
 		}
 
 		if err != nil {
@@ -30,10 +30,10 @@ func PersonList(s *database.Store) gin.HandlerFunc {
 }
 
 // Gets a Person with id given in the parameter.
-//   - /person/:person
-func PersonGet(s *database.Store) gin.HandlerFunc {
+//   - /user/:user
+func UserGet(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		p := c.Param("person")
+		p := c.Param("user")
 		id, err := strconv.Atoi(p)
 
 		if err != nil {
@@ -47,7 +47,7 @@ func PersonGet(s *database.Store) gin.HandlerFunc {
 			return
 		}
 
-		g, err := s.GetPerson(id)
+		g, err := s.GetUser(id)
 		r := g.ToPost()
 
 		if err != nil {
@@ -60,14 +60,14 @@ func PersonGet(s *database.Store) gin.HandlerFunc {
 }
 
 // Posts a Member with data given in the body.
-//   - /person
+//   - /user
 //
 // body
 //   - "id": int
 //   - "name": string
-func PersonPost(s *database.Store) gin.HandlerFunc {
+func UserPost(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var b models.PersonPost
+		var b models.UserPost
 		c.ShouldBindJSON(&b)
 		m := b.ToModel()
 
@@ -77,7 +77,7 @@ func PersonPost(s *database.Store) gin.HandlerFunc {
 			return
 		}
 
-		err := s.AddPerson(m)
+		err := s.AddUser(m)
 		if err != nil {
 			c.Status(http.StatusBadRequest)
 			return
@@ -88,20 +88,20 @@ func PersonPost(s *database.Store) gin.HandlerFunc {
 }
 
 // Puts a Member with data given in the body.
-//   - /person
+//   - /user
 //
 // body
 //   - "id": int
 //   - "name": string
-func PersonPut(s *database.Store) gin.HandlerFunc {
+func UserPut(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var b models.PersonPost
+		var b models.UserPost
 		c.ShouldBindJSON(&b)
 		m := b.ToModel()
 
 		e := s.CheckPerson(m.Id)
 		if !e {
-			err := s.AddPerson(m)
+			err := s.AddUser(m)
 			if err != nil {
 				c.Status(http.StatusBadRequest)
 				return
@@ -111,7 +111,7 @@ func PersonPut(s *database.Store) gin.HandlerFunc {
 			return
 		}
 
-		err := s.UpdatePerson(m)
+		err := s.UpdateUser(m)
 		if err != nil {
 			c.Status(http.StatusBadRequest)
 			return
@@ -122,14 +122,14 @@ func PersonPut(s *database.Store) gin.HandlerFunc {
 }
 
 // Patchs a Member with data given in the body.
-//   - /person
+//   - /user
 //
 // body
 //   - "id": int
 //   - "name": string
-func PersonPatch(s *database.Store) gin.HandlerFunc {
+func UserPatch(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var b models.PersonPost
+		var b models.UserPost
 		c.ShouldBindJSON(&b)
 		m := b.ToModel()
 
@@ -139,7 +139,7 @@ func PersonPatch(s *database.Store) gin.HandlerFunc {
 			return
 		}
 
-		err := s.UpdatePerson(m)
+		err := s.UpdateUser(m)
 		if err != nil {
 			c.Status(http.StatusBadRequest)
 			return
@@ -150,10 +150,10 @@ func PersonPatch(s *database.Store) gin.HandlerFunc {
 }
 
 // Deletes a Person with id given in the parameter.
-//   - /person/:person
-func PersonDelete(s *database.Store) gin.HandlerFunc {
+//   - /user/:user
+func UserDelete(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		p := c.Param("person")
+		p := c.Param("user")
 		id, err := strconv.Atoi(p)
 
 		if err != nil {
@@ -166,7 +166,7 @@ func PersonDelete(s *database.Store) gin.HandlerFunc {
 			c.Status(http.StatusNotFound)
 		}
 
-		err = s.DeletePerson(id)
+		err = s.DeleteUser(id)
 		if err != nil {
 			c.Status(http.StatusBadRequest)
 			return

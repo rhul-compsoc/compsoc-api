@@ -77,11 +77,11 @@ func MemberPost(s *database.Store) gin.HandlerFunc {
 
 		e := s.CheckPerson(m.Id)
 		if !e {
-			p := models.PersonModel{
-				Id: m.Id,
+			p := models.UserModel{
+				Id:   m.Id,
 				Name: m.FirstName,
 			}
-			err := s.AddPerson(p)
+			err := s.AddUser(p)
 			if err != nil {
 				c.Status(http.StatusBadRequest)
 				return
