@@ -160,6 +160,13 @@ var routes = router.Routes{
 		},
 		// File Controllers
 		{
+			Name:        "List File",
+			Method:      router.Get,
+			Path:        "/file",
+			Handler:     "",
+			HandlerFunc: handlers.ListFile(),
+		},
+		{
 			Name:        "Get File",
 			Method:      router.Get,
 			Path:        "/file",

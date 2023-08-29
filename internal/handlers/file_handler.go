@@ -3,45 +3,70 @@ package handlers
 import (
 	"errors"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 	"path"
+	"path/filepath"
+	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/rhul-compsoc/compsoc-api-go/pkg/util"
+	"github.com/rhul-compsoc/compsoc-api-go/internal/models"
 )
 
+// /file
 func ListFile() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		r := make([]models.File, 0)
 
+		w := func(path string, i os.FileInfo, err error) error {
+			if err != nil {
+				return err
+			}
+
+			f := models.File{
+				Path:  path,
+				Size:  i.Size(),
+				IsDir: i.IsDir(),
+			}
+
+			r = append(r, f)
+			return nil
+		}
+
+		err := filepath.Walk("./uploads", w)
+
+		if err != nil {
+			c.Status(http.StatusBadRequest)
+			return
+		}
+
+		c.JSON(http.StatusOK, r)
 	}
 }
 
+// Get a single file.
 // /file/:file
 func GetFile() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		n := c.Param("file")
 
+		n = strings.ReplaceAll(n, "|", "/")
 		path := path.Join("uploads/", n)
 		fmt.Println(path)
 
 		e, err := checkExists(path)
 		if err != nil {
 			c.Status(http.StatusBadRequest)
-			log.Println(err, 1)
 			return
 		}
 		if !e {
 			c.Status(http.StatusBadRequest)
-			log.Println(util.ErrFileNotExist, 2)
 			return
 		}
 
 		f, err := os.Open(path)
 		if err != nil {
 			c.Status(http.StatusBadRequest)
-			log.Println(err, 3)
 			return
 		}
 		defer f.Close()
@@ -50,7 +75,6 @@ func GetFile() gin.HandlerFunc {
 		_, err = f.Read(h)
 		if err != nil {
 			c.Status(http.StatusBadRequest)
-			log.Println(err, 4)
 			return
 		}
 
@@ -58,7 +82,6 @@ func GetFile() gin.HandlerFunc {
 		i, err := f.Stat()
 		if err != nil {
 			c.Status(http.StatusBadRequest)
-			log.Println(err, 5)
 			return
 		}
 
@@ -71,7 +94,8 @@ func GetFile() gin.HandlerFunc {
 	}
 }
 
-// Upload file controller
+// Upload a single file.
+// /file
 func PostFile() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		f, err := c.FormFile("file")
@@ -102,6 +126,8 @@ func PostFile() gin.HandlerFunc {
 	}
 }
 
+// Upload multiple files.
+// /files
 func PostFiles() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		form, err := c.MultipartForm()
@@ -135,24 +161,31 @@ func PostFiles() gin.HandlerFunc {
 	}
 }
 
+// Upload or update a file.
+// /file
 func PutFile() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 	}
 }
 
+// Update a file.
+// /file
 func PatchFile() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 	}
 }
 
+// Delete a file.
+// /file/:file
 func DeleteFile() gin.HandlerFunc {
 	return func(c *gin.Context) {
 
 	}
 }
 
+// Check if a file exists.
 func checkExists(p string) (bool, error) {
 	_, err := os.Stat(p)
 	if err != nil {
