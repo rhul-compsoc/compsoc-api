@@ -34,7 +34,7 @@ func Run() {
 	r = router.New()
 	//r.Use(middleware.MakeAuth())
 	r.Use(cors.Default())
-	r.RegisterRoutes(makeRoutes())
+	r.RegisterRoutes(routes)
 	r.NoRoute(reverseProxy())
 	r.Run()
 
