@@ -26,7 +26,9 @@ func Run() {
 	util.ErrOut(err)
 
 	log.Println("Creating Store")
-	s = database.New()
+	s = database.New(database.SQLiteDB())
+	err = s.AutoMigrate()
+	util.ErrOut(err)
 
 	log.Println("Creating & starting Router")
 	r = router.New()

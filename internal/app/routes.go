@@ -160,6 +160,28 @@ func makeRoutes() router.Routes {
 				Handler:     "/:event",
 				HandlerFunc: handlers.EventDelete(s),
 			},
+			// File Controllers
+			{
+				Name:        "Get File",
+				Method:      router.Get,
+				Path:        "/file",
+				Handler:     "/:file",
+				HandlerFunc: handlers.GetFile(),
+			},
+			{
+				Name:        "Post File",
+				Method:      router.Post,
+				Path:        "/file",
+				Handler:     "",
+				HandlerFunc: handlers.PostFile(),
+			},
+			{
+				Name:        "Post Files",
+				Method:      router.Post,
+				Path:        "/files",
+				Handler:     "",
+				HandlerFunc: handlers.PostFiles(),
+			},
 		},
 	}
 }
