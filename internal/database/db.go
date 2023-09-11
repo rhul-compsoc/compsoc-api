@@ -76,6 +76,17 @@ func (s *Store) Ping() error {
 	return err
 }
 
+// Close the database.
+func (s *Store) Close() error {
+	db, err := s.db.DB()
+	if err != nil {
+		return nil
+	}
+
+	err = db.Close()
+	return err
+}
+
 // Creates a pointer to a gorm db.
 //
 // This uses environmental variables for the dsn.

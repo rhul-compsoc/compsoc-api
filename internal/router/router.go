@@ -34,6 +34,10 @@ func (r *Router) Run() {
 	r.Engine.Run()
 }
 
+func (r *Router) Close() {
+
+}
+
 // Wrapper for the gin engine GET method.
 func (r *Router) Get(route Route) {
 	if route.DecoratorFunc == nil {
