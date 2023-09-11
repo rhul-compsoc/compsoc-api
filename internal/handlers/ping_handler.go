@@ -25,3 +25,17 @@ func PingGet(s *database.Store) gin.HandlerFunc {
 		})
 	}
 }
+
+// Pings the API.
+//   - /ping/admin
+//
+// "admin" will be in response if the user is authorized.
+func AdminPingGet() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		resp := "admin"
+
+		c.JSON(http.StatusOK, gin.H{
+			"ping": resp,
+		})
+	}
+}
