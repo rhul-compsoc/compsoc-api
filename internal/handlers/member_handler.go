@@ -10,7 +10,7 @@ import (
 )
 
 // Gets all Members from members table.
-//   - /member
+//   - /api/v1/member
 func MemberList(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		l, err := s.ListMember()
@@ -30,7 +30,7 @@ func MemberList(s *database.Store) gin.HandlerFunc {
 }
 
 // Gets a Member with id given in the parameter.
-//   - /member/:member
+//   - /api/v1/member/:member
 func MemberGet(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		p := c.Param("member")
@@ -60,7 +60,7 @@ func MemberGet(s *database.Store) gin.HandlerFunc {
 }
 
 // Posts a Member with data given in the body.
-//   - /member
+//   - /api/v1/member
 //
 // body
 //   - "id": int
@@ -105,7 +105,7 @@ func MemberPost(s *database.Store) gin.HandlerFunc {
 }
 
 // Puts a Member with data given in the body.
-//   - /member
+//   - /api/v1/member
 //
 // body
 //   - "id": int
@@ -143,7 +143,7 @@ func MemberPut(s *database.Store) gin.HandlerFunc {
 }
 
 // Patchers a Member with data given in the body.
-//   - /member
+//   - /api/v1/member
 //
 // body
 //   - "id": int
@@ -175,7 +175,7 @@ func MemberPatch(s *database.Store) gin.HandlerFunc {
 }
 
 // Deletes a Member with id given in the parameter.
-//   - /member/:member
+//   - /api/v1/member/:member
 func MemberDelete(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		p := c.Param("member")

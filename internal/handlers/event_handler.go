@@ -10,7 +10,7 @@ import (
 )
 
 // Gets all Events from events table.
-//   - /event
+//   - /api/v1/event
 func EventList(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		l, err := s.ListEvent()
@@ -30,7 +30,7 @@ func EventList(s *database.Store) gin.HandlerFunc {
 }
 
 // Gets an Event with id given in the parameter.
-//   - /event/:event
+//   - /api/v1/event/:event
 func EventGet(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		p := c.Param("event")
@@ -60,7 +60,7 @@ func EventGet(s *database.Store) gin.HandlerFunc {
 }
 
 // posts an Event with data given in the body.
-//   - /event
+//   - /api/v1/event
 //
 // body
 //   - "id": int
@@ -95,7 +95,7 @@ func EventPost(s *database.Store) gin.HandlerFunc {
 }
 
 // Puts an Event with data given in the body.
-//   - /event
+//   - /api/v1/event
 //
 // body
 //   - "id": int
@@ -134,7 +134,7 @@ func EventPut(s *database.Store) gin.HandlerFunc {
 }
 
 // Patchers an Event with data given in the body.
-//   - /event
+//   - /api/v1/event
 //
 // body
 //   - "id": int
@@ -167,7 +167,7 @@ func EventPatch(s *database.Store) gin.HandlerFunc {
 }
 
 // Deletes an Event with id given in the parameter.
-//   - /event/:event
+//   - /api/v1/event/:event
 func EventDelete(s *database.Store) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		p := c.Param("event")
