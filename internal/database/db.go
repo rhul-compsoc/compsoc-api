@@ -28,8 +28,8 @@ type Store struct {
 }
 
 // Create a new pointer to a Store.
-func New(m DbMaker) *Store {
-	return &Store{
+func New(m DbMaker) Store {
+	return Store{
 		db: m(),
 	}
 }

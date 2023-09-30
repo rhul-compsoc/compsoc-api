@@ -13,8 +13,8 @@ type Router struct {
 
 // Returns a pointer to a default router.
 //   - Engine : default gin router.
-func New() *Router {
-	return &Router{
+func New() Router {
+	return Router{
 		Engine: gin.Default(),
 	}
 }
