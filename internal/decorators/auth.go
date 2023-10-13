@@ -28,6 +28,11 @@ func CommitteeAuth(s *database.Store) DecoratorFunc {
 	return func(fn gin.HandlerFunc) gin.HandlerFunc {
 		return func(c *gin.Context) {
 			h := c.Request.Header.Get("Authorization")
+			if !strings.Contains(h, "Admin") {
+				c.Status(http.StatusUnauthorized)
+				return
+			}
+
 			a := strings.Fields(h)
 
 			if a[0] != "Admin" {

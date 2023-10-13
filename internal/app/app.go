@@ -31,7 +31,7 @@ func Run() {
 	util.ErrOut(err)
 
 	log.Println("Creating Store")
-	s = database.New(database.SQLiteDB())
+	s = database.New(database.PostgresDB())
 	err = s.AutoMigrate()
 	util.ErrOut(err)
 
